@@ -25,6 +25,7 @@ void BattleShip::CheatingAiPlayer::setPossibleMoves(int row, int col) {
     pair.push_back(row);
     pair.push_back(col);
     possibleMoves.push_back(pair);
+
 }
 
 BattleShip::Move BattleShip::CheatingAiPlayer::getMove() {
@@ -39,11 +40,10 @@ BattleShip::Move BattleShip::CheatingAiPlayer::getMove() {
             AiPlayerMove.setHit(true);
             AiPlayerMove.setShipHit(opponentBoard.at(AiPlayerMove.getRow()).at(AiPlayerMove.getCol()));
             AiPlayerMove.make(getBoard());
+
             return AiPlayerMove;
         }
     }
-
-
 }
 
 

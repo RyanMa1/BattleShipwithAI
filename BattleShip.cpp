@@ -95,13 +95,16 @@ void BattleShip::BattleShip::play() {
         getCurrentPlayer().getBoard().displayShipPlacement();
         updateBoards(move);
         //display firing boards & placement boards
-        changeTurn();
-        //display who won
-
+//        std::cout << "why crash?" <<std::endl;
+        std::cout << getCurrentPlayer().getShipHealths().empty() << std::endl;
         if(gameWon()){
-            std::cout << getOtherPlayer().getName() << " won the game!" << std::endl;
+            std::cout << getCurrentPlayer().getName() << " won the game!" << std::endl;
             break;
         }
+        changeTurn();
+//        std::cout << "Current player turn: " << getCurrentPlayer().getName() << std::endl;
+        //display who won
+
     }
 
 
@@ -152,6 +155,7 @@ BattleShip::Player &BattleShip::BattleShip::getCurrentPlayer() {
 
 void BattleShip::BattleShip::updateBoards(Move& move) {
     getOtherPlayer().getBoard().updatePlacementBoard(move);
+
     if(move.isHit()){
         //add to the hunt/destroy's Ai priority hits
         std::cout << getCurrentPlayer().getName() << " hit " << getOtherPlayer().getName() << "'s " << move.getShipHit() << "!" << std::endl;
@@ -164,7 +168,7 @@ void BattleShip::BattleShip::updateBoards(Move& move) {
 
 bool BattleShip::BattleShip::gameWon()  {
     //we need to check in our shiphealth map,
-    return (getCurrentPlayer().getShipHealths().empty());
+    return (getOtherPlayer().getShipHealths().empty());
 }
 
 BattleShip::Player &BattleShip::BattleShip::getOtherPlayer() {

@@ -41,15 +41,23 @@ bool BattleShip::Player::checkHit(const int &row, const int &col) {
 }
 
 void BattleShip::Player::updateShipHealth(char val, std::string playersName1, std::string playersName2) {
+    std::cout << "breaks in here" << std::endl;
+    if (shipHealths.empty()){
+        return;
+    }
     shipHealths[val] = shipHealths[val] - 1;
     for(auto& ship : shipHealths){
+        std::cout << ship.first << std::endl;
         if(ship.second == 0){
             std::cout << playersName1 << " destroyed " << playersName2 << "'s " << val << "!" << "\n" << std::endl;
             shipHealths.erase(ship.first);
+            break;
+//            std::cout << "Is map empty?" << shipHealths.empty() << std::endl;
         }else{
             continue;
         }
     }
+//    std::cout << "Is map empty?" << shipHealths.empty() << std::endl;
 
 }
 
