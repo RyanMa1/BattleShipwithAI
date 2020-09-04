@@ -8,16 +8,16 @@
 #include "AiPlayer.h"
 
 int main(int argc, char **argv) {
-    // std::string filename(argv[1]);
-    // if(argc > 2) {
-    //     BattleShip::AiPlayer::seed_random_number_generator(std::stoi(argv[2]));
-    // }
+    std::string filename(argv[1]);
+    if(argc > 2) {
+        BattleShip::AiPlayer::seed_random_number_generator(std::stoi(argv[2]));
+    }
 
     std::vector<std::string> gameConfig;
     gameConfig = BattleShip::configGame(filename);
     BattleShip::BattleShip BattleShipStart(gameConfig);
     BattleShipStart.play();
-
+    
 
 
     return 0;

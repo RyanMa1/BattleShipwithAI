@@ -1,7 +1,6 @@
 CC=g++
 DEV=-Wall -g -std=c++14
 OPT=-O3 -std=c++14
-
 # JSON=json.hpp
 #all: consistentresultverification sortedverification timealgorithms
 

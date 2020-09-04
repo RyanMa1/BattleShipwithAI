@@ -1,0 +1,7 @@
+rowSize 9
+colSize 9
+numBoats 4 // this tells the program how many Boats the round of Battle Ship would have
+Char Int A 4 // each line represents what the boat will be named and the size of the boat seperated by a space
+Char Int B 5 // so in this case there would be 4 boats each with different sizes represented by a different character
+Char Int C 2
+Char Int D 1

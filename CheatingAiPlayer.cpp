@@ -18,8 +18,6 @@ void BattleShip::CheatingAiPlayer::getPossibleMoves() {
             }
         }
     }
-
-
 }
 
 void BattleShip::CheatingAiPlayer::setPossibleMoves(int row, int col) {

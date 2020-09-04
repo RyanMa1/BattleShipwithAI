@@ -22,6 +22,4 @@ namespace BattleShip {
     public:
     };
 }
-
-
 #endif //BATTLESHIP_HUNTDESTROYAIPLAYER_H

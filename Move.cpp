@@ -17,7 +17,9 @@ bool BattleShip::Move::isValid(const BattleShip::Board &board) const {
 }
 
 void BattleShip::Move::make(BattleShip::Board &board) {
+    
     board.setFire(row, col, getVal());
+    
 }
 
 int& BattleShip::Move::getRow() {
