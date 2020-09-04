@@ -95,15 +95,13 @@ void BattleShip::BattleShip::play() {
         getCurrentPlayer().getBoard().displayShipPlacement();
         updateBoards(move);
         //display firing boards & placement boards
-//        std::cout << "why crash?" <<std::endl;
         std::cout << getCurrentPlayer().getShipHealths().empty() << std::endl;
+        //display who won
         if(gameWon()){
             std::cout << getCurrentPlayer().getName() << " won the game!" << std::endl;
             break;
         }
         changeTurn();
-//        std::cout << "Current player turn: " << getCurrentPlayer().getName() << std::endl;
-        //display who won
 
     }
 
