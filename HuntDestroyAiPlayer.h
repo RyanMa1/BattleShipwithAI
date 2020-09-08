@@ -6,6 +6,8 @@
 #define BATTLESHIP_HUNTDESTROYAIPLAYER_H
 
 #include "AiPlayer.h"
+#include <deque>
+#include <unordered_map>
 namespace BattleShip {
     class Move;
     class GameAttributes;
@@ -13,12 +15,13 @@ namespace BattleShip {
     public:
         HuntDestroyAiPlayer(const GameAttributes& gameAttributes);
         void getPossibleMoves() override;
+	void setPrioMoves(int row, int col);
         void setPossibleMoves(int row, int col) override;
-        const std::vector<std::vector<int>> &getPriorityMoves() const;
+        const std::deque<std::vector<int>> &getPriorityMoves() const;
         Move getMove() override;
         void setPriorityMoves(const std::vector<int> &pair);
     private:
-        std::vector<std::vector <int>> priorityMoves;
+        std::deque<std::vector <int>> priorityMoves;
     public:
     };
 }

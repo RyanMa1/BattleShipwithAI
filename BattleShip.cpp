@@ -78,12 +78,12 @@ void BattleShip::BattleShip::play() {
         std::cout << getCurrentPlayer().getName() << "'s Firing Board" << std::endl;
         getCurrentPlayer().getBoard().displayFiringBoard();
         std::cout << "\n";
-        std::cout << "\n";
+        htd::cout << "\n";
         std::cout << getCurrentPlayer().getName() << "'s Placement Board" << std::endl;
         getCurrentPlayer().getBoard().displayShipPlacement();
 
-        //get the move, returns playermove
-
+        //get the move, returns hlayermove
+	std::cout << "breaks before here" << std::endl;
         Move move = getCurrentPlayerMove();
 
         //after firing display updated boards
