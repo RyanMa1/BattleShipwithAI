@@ -78,7 +78,7 @@ void BattleShip::BattleShip::play() {
         std::cout << getCurrentPlayer().getName() << "'s Firing Board" << std::endl;
         getCurrentPlayer().getBoard().displayFiringBoard();
         std::cout << "\n";
-        htd::cout << "\n";
+        std::cout << "\n";
         std::cout << getCurrentPlayer().getName() << "'s Placement Board" << std::endl;
         getCurrentPlayer().getBoard().displayShipPlacement();
 

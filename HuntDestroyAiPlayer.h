@@ -20,8 +20,12 @@ namespace BattleShip {
         const std::deque<std::vector<int>> &getPriorityMoves() const;
         Move getMove() override;
         void setPriorityMoves(const std::vector<int> &pair);
+	bool setNewPrioMoves(const int destroyDir, const std::vector<int> &pair);
+	void setBothWayKiller(int row, int col);
     private:
         std::deque<std::vector <int>> priorityMoves;
+	std::deque<std::vector <int>> killBothWays;
+ 
     public:
     };
 }
