@@ -32,111 +32,88 @@ BattleShip::Move BattleShip::HuntDestroyAiPlayer::getMove() {
     std::vector<int> pair;
     getPossibleMoves();
     Move AiPossibleMove(*this);
-    std::cout << "current player turn: " <<playerName << std::endl;
-    std::cout << "Num cols: "<< getBoard().getNumCols() << std::endl;
-    //there are two vectors, priorityMoves and possibleMoves
-    //priorityMoves: Used to check if the bot does hit a boat, then needs to check all around it to find the next part of boat
-    std::cout << "In get Move()" << std::endl; 
-    std::cout << "Is primoves empty? " << priorityMoves.empty() << std::endl;
-//    for(auto x : priorityMoves){
-//	std::cout <<"WIthin priority moves are the pair: " <<"row: " << x.at(0) <<"col: "  << x.at(1) << std::endl;
-//    }
-    for(int x = 0; x < killBothWays.size(); x++){ 
-        if(board.getFiringBoard().at(killBothWays.at(x).at(0)).at(killBothWays.at(x).at(1)) != board.getBlankChar()){
-            killBothWays.erase(killBothWays.begin() + x); 
-  	    std::cout << "erased entire kill Both ways: " << killBothWays.size() << std::endl; 
-     }	  
-    }
-     
-    if(!killBothWays.empty()){
-	priorityMoves.erase(priorityMoves.begin(), priorityMoves.end());
-	std::cout << "in killBothWays.empty" << std::endl;
-	std::cout << "size of killBothways size: "<< killBothWays.size()  << std::endl;	
-
-	
-	for(int i = 0; i < killBothWays.size(); i++){
-	   std::cout << "KillbothWays coordinates: " << "row: "<< killBothWays.at(i).at(0) <<"col: "  << killBothWays.at(i).at(1) << std::endl;
-	   if (board.getFiringBoard().at(killBothWays.at(i).at(0)).at(killBothWays.at(i).at(1)) == board.getBlankChar()){
-            AiPossibleMove.getRow() = killBothWays.at(i).at(0);
-            AiPossibleMove.getCol() = killBothWays.at(i).at(1);
-            AiPossibleMove.setVal('X');
-            AiPossibleMove.setHit(true);
-            AiPossibleMove.setShipHit(opponentBoard.at(AiPossibleMove.getRow()).at(AiPossibleMove.getCol()));
-            AiPossibleMove.make(getBoard());
-            killBothWays.pop_front();
-            return AiPossibleMove; 
-	    }
-	}
-    }else if(priorityMoves.empty()){
-        int randomMove = getRandInt(0, possibleMoves.size() - 1, randomNumberGenerator);
-	//std::cout << possibleMoves.at(randomMove).at(0) <<  possibleMoves.at(randomMove).at(1)<< std::endl;
-        pair = possibleMoves.at(randomMove);
-        AiPossibleMove.getRow() = pair.at(0);
-        AiPossibleMove.getCol() = pair.at(1);
-	std::cout << "breaks?" << std::endl;	
-        possibleMoves.erase(possibleMoves.begin() + randomMove);
-        std::cout << "breaks? 2" << std::endl;
-	std::cout << getName() << "'s size of queue"<< priorityMoves.size() << std::endl; 
-	if(checkHit(AiPossibleMove.getRow(), AiPossibleMove.getCol())) {
+    if(priorityMoves.empty()){
+       int randomMove = getRandInt(0, possibleMoves.size() - 1, randomNumberGenerator);
+       pair = possibleMoves.at(randomMove);
+       AiPossibleMove.getRow() = pair.at(0);
+       AiPossibleMove.getCol() = pair.at(1);
+       possibleMoves.erase(possibleMoves.begin() + randomMove);
+       if(checkHit(AiPossibleMove.getRow(), AiPossibleMove.getCol())) {
             priorityMoves.push_back(pair);
-	    std::cout << "in if statement" << std::endl; 
 	    setPriorityMoves(pair);
-	    AiPossibleMove.setVal('X');
-            AiPossibleMove.setHit(true);
-	    std::cout << "before setShipHit" << std::endl;
-            AiPossibleMove.setShipHit(opponentBoard.at(AiPossibleMove.getRow()).at(AiPossibleMove.getCol()));
-	    std::cout << "breaks after setting ship hit" << std::endl;
-            AiPossibleMove.make(getBoard());
+	    markHitShip(AiPossibleMove, 'X');
 	    return AiPossibleMove;	
         }else{
-            AiPossibleMove.setVal('O');
-            AiPossibleMove.setHit(false);
-            AiPossibleMove.setShipHit(opponentBoard.at(AiPossibleMove.getRow()).at(AiPossibleMove.getCol()));
-            AiPossibleMove.make(getBoard());
+	    markHitShip(AiPossibleMove, 'O');
 	    return AiPossibleMove;
         }
-    }else{
- 	std::cout << "in here breaking before for loop" << std::endl;	
-	std::vector<std::vector<int>> oneWay;
-	std::vector<std::vector<int>> secondWay;
-	int destroyDir = 0;
-	for (int i = 1; i < priorityMoves.size(); i++) {
-            pair = priorityMoves.at(i);
-	    AiPossibleMove.getRow() = pair.at(0);
-	    AiPossibleMove.getCol() = pair.at(1);
-	    std::cout << "checking is valid: "<< AiPossibleMove.isValid(getBoard()) << std::endl; 
-	   //should only go into here to find the next ship letter
-	    std::cout << "PrioMovesChoices: " << AiPossibleMove.getRow() << " , " << AiPossibleMove.getCol() << std::endl; 
-	    if (checkHit(AiPossibleMove.getRow(), AiPossibleMove.getCol()) ){
-//              getShipHealths[AiPossibleMove.getShipHit()] != 0)
-//		AiPossibleMove.getRow() = priorityMoves.at(i).at(0);
-//            	AiPossibleMove.getCol() = priorityMoves.at(i).at(1);
-            	AiPossibleMove.setVal('X');
-            	AiPossibleMove.setHit(true);
-		std::cout << "in here breaking before setship 2" << std::endl;
-            	AiPossibleMove.setShipHit(opponentBoard.at(AiPossibleMove.getRow()).at(AiPossibleMove.getCol()));
-            	AiPossibleMove.make(getBoard()); 
-//		std::cout << "Next ship piece row,col: " << AiPossibleMove.getRow() << " , " << AiPossibleMove.getCol() << std::endl;
-	        destroyDir = i;	
-		std::cout << "DestroyDir Value: " << destroyDir << std::endl;
-		priorityMoves.erase(priorityMoves.begin() + 1,priorityMoves.begin() + priorityMoves.size());
-		std::cout << "PriorityMoves size after deleting" << priorityMoves.size() << std::endl;
-		//adds new priority moves to vector, removes checking any left over directions
-		setNewPrioMoves(destroyDir, pair);
-		return AiPossibleMove; 
-	    }else if(board.getFiringBoard().at(AiPossibleMove.getRow()).at(AiPossibleMove.getCol()) == board.getBlankChar()){
-	        AiPossibleMove.setVal('O');
-	        AiPossibleMove.setHit(false);
-	        AiPossibleMove.setShipHit(opponentBoard.at(AiPossibleMove.getRow()).at(AiPossibleMove.getCol()));	
-		AiPossibleMove.make(getBoard());
-		return AiPossibleMove;
-		//priorityMoves.erase(priorityMoves.erase(priorityMoves.begin() + i);
-	    }
-            //gets the element at the first tuple, from the vector of tuples of the priority hits...
-        }
+     }else{
+	char dir;
+	countForBothSidesCheck = false;
+	if(countForBothSidesCheck){
+		setDirOpposite();
+	}	
+	pair = priorityMoves.at(1);
+	AiPossibleMove.getRow() = pair.at(0);
+	AiPossibleMove.getCol() = pair.at(1);
+	if(checkHit(AiPossibleMove.getRow(),AiPossibleMove.getCol()){
+		dir = getDirection(pair);
+		priorityMoves.erase(priorityMoves.begin() + 1, priorityMoves.end());	
+		setDestroy(dir, pair);
+	}else{
+		priorityMoves.erase(priorityMoves.begin() + 1);
+		markHitShip(AiPossibleMove, 'O');
+	}
+ 	
     }
 }
-
+BattleShip::Move BattleShip::HuntDestroyAiPlayer::setDestroy(char dir, Move& AiPossibleMove){
+	switch(dir){
+		case('l'):
+			if(AiPossibleMove.getCol() - 1 >= 0)		
+				AiPossibleMove.getCol()--;
+			else{
+				countForBothSidesCheck = true;
+				setDirOpposite();
+			}
+			return AiPossibleMove;			
+		case('r'):
+			AiPossibleMove.getCol()++;
+			return AiPossibleMove;
+		case('t'):
+			AiPossibleMove.getRow()--;
+			return AiPossibleMove;
+		case('b'):
+			AiPossibleMove.getRow()++;
+	}
+}
+char BattleShip::HuntDestroyAiPlayer::getDirection(std::vector<int> pair){
+	int row = pair.at(0);
+	int col = pair.at(1);
+	int crow = priorityMoves.at(0).at(0);
+	int ccol = priorityMoves.at(0).at(1);
+	if(ccol - 1 == col){
+		return 'l';
+	}else if(ccol + 1 == col){
+		return 'r';
+	}else if(crow - 1 == row){
+		return 't';
+	}else if(crow + 1 == row){
+		return 'b';
+	}
+}
+void BattleShip::HuntDestroyAiPlayer::markHitShip(Move& AiPossibleMove, char XorY){
+	AiPossibleMove.setVal(XorY);
+	switch(XorY){
+		case('X'):
+			AiPossibleMove.setHit(true);
+		case('O'):
+			AiPossibleMove.setHit(false);
+        AiPossibleMove.setShipHit(opponentBoard.at(AiPossibleMove.getRow()).at(AiPossibleMove.getCol()));
+        AiPossibleMove.make(getBoard());
+	}
+}
+    
 const std::deque<std::vector<int>> &BattleShip::HuntDestroyAiPlayer::getPriorityMoves() const {
     return priorityMoves;
 }
